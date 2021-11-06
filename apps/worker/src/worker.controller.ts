@@ -3,9 +3,9 @@ import { WorkerService } from './worker.service';
 
 @Controller()
 export class WorkerController {
-  constructor(private readonly workerService: WorkerService) {}
+    constructor(private readonly workerService: WorkerService) {}
 
-  getHello(): string {
-    return this.workerService.getHello();
-  }
+    getHello(): string {
+        return this.workerService.getHello();
+    }
 }
