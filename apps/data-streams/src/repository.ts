@@ -12,8 +12,7 @@ export class Repository {
 
     async upsertData(data: unknown[]): Promise<void> {
         await this.checkConnection();
-        const stored: unknown[] = JSON.parse((await this.client.get(Repository.cacheKey)) ?? '[]');
-        await this.client.set(Repository.cacheKey, JSON.stringify([...stored, ...data]));
+        await this.client.set(Repository.cacheKey, JSON.stringify([...(await this.getData()), ...data]));
     }
 
     async getData(): Promise<unknown[]> {
