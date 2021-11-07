@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { WorkerModule } from './worker.module';
 import { MicroserviceOptions } from '@nestjs/microservices';
+import { WorkerModule } from './infrastructure/worker.module';
 
 async function bootstrap() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(WorkerModule, {
