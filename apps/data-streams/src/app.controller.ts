@@ -1,4 +1,4 @@
-import { Controller, Delete, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Post } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
@@ -16,8 +16,13 @@ export class AppController {
         return this.appService.stopDataStream();
     }
 
+    @Get()
+    getData() {
+        return this.appService.getData();
+    }
+
     @MessagePattern('new-data')
-    dataHandler(@Payload() data: unknown) {
-        console.log(data);
+    dataHandler(@Payload() data: string) {
+        this.appService.upsertData(JSON.parse(data));
     }
 }
