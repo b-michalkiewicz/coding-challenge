@@ -1,10 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { WorkerModule } from './infrastructure/worker.module';
 
 async function bootstrap() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(WorkerModule, {
-        // Setup communication protocol here
+        transport: Transport.RMQ,
+        options: {
+            urls: ['amqp://localhost:5672'],
+            queue: 'worker_queue',
+            queueOptions: {
+                durable: true,
+            },
+        },
     });
     app.listen(async () => {
         console.log('Microservice is listening');
