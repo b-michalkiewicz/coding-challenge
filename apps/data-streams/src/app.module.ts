@@ -7,7 +7,7 @@ import { AppService } from './app.service';
     imports: [
         ClientsModule.register([
             {
-                name: 'worker_service',
+                name: 'WorkerService',
                 transport: Transport.RMQ,
                 options: {
                     urls: ['amqp://localhost:5672'],

@@ -1,6 +1,6 @@
 import { Result } from 'common/result';
 
-export type DataObject = Record<string, unknown>;
+export type DataObject = Record<string, unknown> | Record<string, unknown>[];
 
 export type DataProvider<Data extends DataObject> = () => Promise<Result<Data>>;
 
@@ -19,5 +19,5 @@ export type Error = {
 export type Event = Success | Error;
 
 export type EventEmitter = {
-    emit(event: Event): Promise<void>;
+    emit(event: Event): void;
 };

@@ -1,11 +1,14 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { DataProviderConfig } from './config';
 import { DataFetchError, hasMessage } from './errors';
 
 @Injectable()
-export class DataProvider {
-    constructor(private readonly config: DataProviderConfig, private readonly httpService: HttpService) {}
+export class HttpDataProvider {
+    constructor(
+        @Inject('DataProviderConfig') private readonly config: DataProviderConfig,
+        private readonly httpService: HttpService,
+    ) {}
 
     async fetchData() {
         try {

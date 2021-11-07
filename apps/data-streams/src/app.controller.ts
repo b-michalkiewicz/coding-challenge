@@ -1,12 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Post } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
     constructor(private readonly appService: AppService) {}
 
-    @Get()
-    getHello(): string {
-        return this.appService.getHello();
+    @Post()
+    startDataStream(): void {
+        return this.appService.startDataStream();
+    }
+
+    @Delete()
+    stopDataStream(): void {
+        return this.appService.stopDataStream();
+    }
+
+    @MessagePattern('new-data')
+    dataHandler(@Payload() data: unknown) {
+        console.log(data);
     }
 }

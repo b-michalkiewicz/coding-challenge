@@ -15,13 +15,13 @@ export class DataPipeline<Data extends DataObject> {
     }
 
     private async handleError(error: Error) {
-        await this.eventEmitter.emit({ kind: 'error', message: error.message });
+        this.eventEmitter.emit({ kind: 'error', message: error.message });
         return error;
     }
 
     private async handleSuccess(rawData: Data) {
         const data = this.middlewares.reduce((data, middleware) => middleware(data), rawData);
-        await this.eventEmitter.emit({ kind: 'success', data });
+        this.eventEmitter.emit({ kind: 'success', data });
         return data;
     }
 }
