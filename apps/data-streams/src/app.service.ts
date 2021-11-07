@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Repository } from './repository';
+
 @Injectable()
 export class AppService {
     constructor(@Inject('WorkerService') private readonly clientProxy: ClientProxy, private readonly repository: Repository) {}
