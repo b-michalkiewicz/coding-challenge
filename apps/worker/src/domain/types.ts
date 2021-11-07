@@ -18,6 +18,4 @@ export type Error = {
 
 export type Event = Success | Error;
 
-export type EventEmitter = {
-    emit(event: Event): void;
-};
+export type EventEmitter = (event: Event) => void;

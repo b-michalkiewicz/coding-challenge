@@ -1,14 +1,10 @@
 import { Error } from 'common/result';
 import { DataPipeline } from './data-pipeline';
-import { EventEmitter } from './types';
 
 const providerMock = jest.fn();
 const middleware1Mock = jest.fn();
 const middleware2Mock = jest.fn();
-const emitMock = jest.fn();
-const eventEmitterMock: EventEmitter = {
-    emit: emitMock,
-};
+const eventEmitterMock = jest.fn();
 
 let testSubject: DataPipeline<{ value: number }>;
 
@@ -25,7 +21,7 @@ describe('DataPipeline - unit tests', () => {
         providerMock.mockResolvedValueOnce(error);
 
         expect(await testSubject.run()).toEqual(error);
-        expect(emitMock).toHaveBeenCalledWith({ kind: 'error', message: 'error' });
+        expect(eventEmitterMock).toHaveBeenCalledWith({ kind: 'error', message: 'error' });
         expect(middleware1Mock).toHaveBeenCalledTimes(0);
         expect(middleware2Mock).toHaveBeenCalledTimes(0);
     });
@@ -40,7 +36,7 @@ describe('DataPipeline - unit tests', () => {
         middleware2Mock.mockReturnValueOnce(finalData);
 
         expect(await testSubject.run()).toEqual(finalData);
-        expect(emitMock).toHaveBeenCalledWith({ kind: 'success', data: finalData });
+        expect(eventEmitterMock).toHaveBeenCalledWith({ kind: 'success', data: finalData });
         expect(middleware1Mock).toHaveBeenCalledWith(rawData);
         expect(middleware2Mock).toHaveBeenCalledWith(intermediateData);
     });

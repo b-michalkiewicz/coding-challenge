@@ -2,10 +2,10 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientProxy } from '@nestjs/microservices';
 import { isError, Result } from 'common/result';
+import { v4 as uuid } from 'uuid';
 import { DogFacts } from '../application/decoder';
 import { HttpDataProvider } from '../application/http-data-provider';
 import { DataPipeline } from '../domain/data-pipeline';
-import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class WorkerService extends DataPipeline<DogFacts> {
@@ -16,7 +16,11 @@ export class WorkerService extends DataPipeline<DogFacts> {
         dataProvider: HttpDataProvider,
         eventEmitter: EventEmitter2,
     ) {
-        super(() => dataProvider.fetchData(), [], { emit: (e) => eventEmitter.emit(`data-pipeline.${e.kind}`, e) });
+        super(
+            () => dataProvider.fetchData(),
+            [],
+            (event) => eventEmitter.emit(`data-pipeline.${event.kind}`, event),
+        );
     }
 
     async run(): Promise<Result<DogFacts>> {
