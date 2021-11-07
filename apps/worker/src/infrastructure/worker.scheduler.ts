@@ -5,7 +5,7 @@ import { WorkerService } from './worker.service';
 
 @Injectable()
 export class WorkerScheduler {
-    private static readonly cronTime = CronExpression.EVERY_5_SECONDS;
+    private static readonly cronTime = CronExpression.EVERY_5_MINUTES;
     private static readonly cronName = 'worker-cron';
 
     constructor(private readonly schedulerRegistry: SchedulerRegistry, private readonly workerService: WorkerService) {}
