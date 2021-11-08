@@ -1,3 +1,38 @@
+# Solution
+
+## How to run the app
+- `npm i`
+- `docker-compose u`
+- `docker-compose u`
+- `npm run start worker`
+- `npm run start`
+
+The api is running on port 3000, to get the data: `GET data-stream/data`, to start data stream: `POST data-stream/start`, to stop data stream: `DELETE data-stream/stop` .
+
+## Chosen approach
+
+I extracted the part with the core logic as a separate module `src/apps/worker/src/domain/data-pipeline.ts`. You can clearly see what is happening during data collection, also this is the only tested part of the application as the rest is just delegating some work or infrastructure details. The decoupling is ensured by using domain events. Data transformations are provided as dependencies in form of data middlewares.
+
+## Chosen technologies
+
+RabbitMQ is used as a message protocol and Redis as storage.
+
+RabbitMQ is quite a popular, reliable, and production-ready tool for distributed messaging.
+
+Redis was chosen for simplicity as we don't have any information on how the data is going to be used or how we need to scale our solution. If we don't know our queries at all some SQL solution should be chosen for better flexibility. If we know our queries in advance and we anticipate huge scale, NoSQL solutions could be considered. I designed the app in a way that would be easy to change storage solutions.
+
+## Short-comings and possible improvements
+
+- config is hardcoded - before going to prod it must be fixed to ensure the solution is working in different environments and it's to change to the config
+- no Docker image
+- no authentication and authorization
+- more tests are needed - integration tests with data endpoints simulation tool ([example](https://netflix.github.io/pollyjs/#/)) to ensure we deal with external errors correctly
+- DTOs for better separation
+- RCP exceptions handling
+
+I didn't include any pipeline middlewares but the solution is there (tested by unit tests) so it would be very to add any data transformation. Same for data pipeline event listeners - they could be added for notifications, better error handling, etc.
+
+
 # Welcome to Welds coding-challenge
 
 ## Introduction
