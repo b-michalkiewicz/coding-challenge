@@ -6,21 +6,27 @@ const middleware1Mock = jest.fn();
 const middleware2Mock = jest.fn();
 const eventEmitterMock = jest.fn();
 
-let testSubject: DataPipeline<{ value: number }>;
+class TestClass extends DataPipeline<{ value: number }> {
+    runPipeline() {
+        return super.run();
+    }
+}
+
+let testSubject: TestClass;
 
 class TestError extends Error {}
 
 describe('DataPipeline - unit tests', () => {
     beforeEach(() => {
         jest.resetAllMocks();
-        testSubject = new DataPipeline(providerMock, [middleware1Mock, middleware2Mock], eventEmitterMock);
+        testSubject = new TestClass(providerMock, [middleware1Mock, middleware2Mock], eventEmitterMock);
     });
 
     it('emits correct event and returns an error in failure flow', async () => {
         const error = new TestError('error');
         providerMock.mockResolvedValueOnce(error);
 
-        expect(await testSubject.run()).toEqual(error);
+        expect(await testSubject.runPipeline()).toEqual(error);
         expect(eventEmitterMock).toHaveBeenCalledWith({ kind: 'error', message: 'error' });
         expect(middleware1Mock).toHaveBeenCalledTimes(0);
         expect(middleware2Mock).toHaveBeenCalledTimes(0);
@@ -35,7 +41,7 @@ describe('DataPipeline - unit tests', () => {
         middleware1Mock.mockReturnValueOnce(intermediateData);
         middleware2Mock.mockReturnValueOnce(finalData);
 
-        expect(await testSubject.run()).toEqual(finalData);
+        expect(await testSubject.runPipeline()).toEqual(finalData);
         expect(eventEmitterMock).toHaveBeenCalledWith({ kind: 'success', data: finalData });
         expect(middleware1Mock).toHaveBeenCalledWith(rawData);
         expect(middleware2Mock).toHaveBeenCalledWith(intermediateData);

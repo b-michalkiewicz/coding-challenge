@@ -8,7 +8,7 @@ export class DataPipeline<Data extends DataObject> {
         private readonly eventEmitter: EventEmitter,
     ) {}
 
-    async run(): Promise<Result<Data>> {
+    protected async run(): Promise<Result<Data>> {
         const rawData = await this.provider();
 
         return isError(rawData) ? this.handleError(rawData) : this.handleSuccess(rawData);

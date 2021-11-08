@@ -23,7 +23,7 @@ export class WorkerService extends DataPipeline<DogFacts> {
         );
     }
 
-    async run(): Promise<Result<DogFacts>> {
+    async runDataPipeline(): Promise<Result<DogFacts>> {
         const runId = uuid();
 
         this.logger.log(`Run ${runId} started at ${new Date().toISOString()}`);

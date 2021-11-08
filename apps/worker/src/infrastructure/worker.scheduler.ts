@@ -11,10 +11,11 @@ export class WorkerScheduler {
     constructor(private readonly schedulerRegistry: SchedulerRegistry, private readonly workerService: WorkerService) {}
 
     startDataCollecting() {
-        const job = new CronJob(WorkerScheduler.cronTime, () => this.workerService.run());
+        const job = new CronJob(WorkerScheduler.cronTime, () => this.workerService.runDataPipeline());
         this.schedulerRegistry.addCronJob(WorkerScheduler.cronName, job);
-        this.workerService.run();
         job.start();
+
+        this.workerService.runDataPipeline();
     }
 
     stopDataCollecting() {
