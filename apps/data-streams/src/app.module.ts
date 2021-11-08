@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
+import { DogFactsRepository, RedisDogFactsRepository } from './app.repository';
 import { AppService } from './app.service';
-import { Repository } from './repository';
+
 @Module({
     imports: [
         ClientsModule.register([
@@ -20,6 +21,12 @@ import { Repository } from './repository';
         ]),
     ],
     controllers: [AppController],
-    providers: [AppService, Repository],
+    providers: [
+        AppService,
+        {
+            provide: DogFactsRepository,
+            useClass: RedisDogFactsRepository,
+        },
+    ],
 })
 export class AppModule {}

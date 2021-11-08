@@ -2,7 +2,7 @@ import { HttpModule, Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ScheduleModule } from '@nestjs/schedule';
-import { dataProviderConfig } from '../application/config';
+import { DataProviderConfig, dataProviderConfig } from '../application/config';
 import { HttpDataProvider } from '../application/http-data-provider';
 import { WorkerController } from './worker.controller';
 import { WorkerScheduler } from './worker.scheduler';
@@ -28,11 +28,6 @@ import { WorkerService } from './worker.service';
         ]),
     ],
     controllers: [WorkerController],
-    providers: [
-        { provide: 'DataProviderConfig', useValue: dataProviderConfig },
-        HttpDataProvider,
-        WorkerScheduler,
-        WorkerService,
-    ],
+    providers: [{ provide: DataProviderConfig, useValue: dataProviderConfig }, HttpDataProvider, WorkerScheduler, WorkerService],
 })
 export class WorkerModule {}

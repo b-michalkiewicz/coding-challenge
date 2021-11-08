@@ -1,10 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Repository } from './repository';
+import { DogFacts } from 'common/types';
+import { DogFactsRepository } from './app.repository';
 
 @Injectable()
 export class AppService {
-    constructor(@Inject('WorkerService') private readonly clientProxy: ClientProxy, private readonly repository: Repository) {}
+    constructor(
+        @Inject('WorkerService') private readonly clientProxy: ClientProxy,
+        @Inject(DogFactsRepository) private readonly repository: DogFactsRepository,
+    ) {}
 
     startDataStream(): void {
         this.clientProxy.emit('start-data-collecting', JSON.stringify({}));
@@ -14,11 +18,11 @@ export class AppService {
         this.clientProxy.emit('stop-data-collecting', JSON.stringify({}));
     }
 
-    async upsertData(data: unknown[]): Promise<void> {
+    async upsertData(data: DogFacts): Promise<void> {
         await this.repository.upsertData(data);
     }
 
-    async getData(): Promise<unknown[]> {
+    async getData(): Promise<DogFacts> {
         return this.repository.getData();
     }
 }

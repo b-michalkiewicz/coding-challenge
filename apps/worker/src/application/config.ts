@@ -6,3 +6,4 @@ export const dataProviderConfig = {
 };
 
 export type DataProviderConfig = typeof dataProviderConfig;
+export const DataProviderConfig = Symbol.for('DataProviderConfig');

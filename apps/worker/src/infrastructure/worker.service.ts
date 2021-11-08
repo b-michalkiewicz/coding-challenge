@@ -2,8 +2,8 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientProxy } from '@nestjs/microservices';
 import { isError, Result } from 'common/result';
+import { DogFacts } from 'common/types';
 import { v4 as uuid } from 'uuid';
-import { DogFacts } from '../application/decoder';
 import { HttpDataProvider } from '../application/http-data-provider';
 import { DataPipeline } from '../domain/data-pipeline';
 

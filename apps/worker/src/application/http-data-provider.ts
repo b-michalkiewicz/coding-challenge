@@ -6,7 +6,7 @@ import { DataFetchError, hasMessage } from './errors';
 @Injectable()
 export class HttpDataProvider {
     constructor(
-        @Inject('DataProviderConfig') private readonly config: DataProviderConfig,
+        @Inject(DataProviderConfig) private readonly config: DataProviderConfig,
         private readonly httpService: HttpService,
     ) {}
 
