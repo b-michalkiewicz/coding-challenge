@@ -6,17 +6,17 @@ import { AppService } from './app.service';
 export class AppController {
     constructor(private readonly appService: AppService) {}
 
-    @Post('start')
+    @Post()
     startDataStream(): void {
         return this.appService.startDataStream();
     }
 
-    @Delete('stop')
+    @Delete()
     stopDataStream(): void {
         return this.appService.stopDataStream();
     }
 
-    @Get('data')
+    @Get()
     getData() {
         return this.appService.getData();
     }

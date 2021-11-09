@@ -7,7 +7,7 @@
 - `npm run start worker`
 - `npm run start`
 
-The api is running on port 3000, to get the data: `GET data-stream/data`, to start data stream: `POST data-stream/start`, to stop data stream: `DELETE data-stream/stop` .
+The api is running on port 3000, to get the data: `GET data-stream`, to start data stream: `POST data-stream`, to stop data stream: `DELETE data-stream` .
 
 ## Chosen approach
 
