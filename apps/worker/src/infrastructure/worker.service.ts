@@ -28,7 +28,7 @@ export class WorkerService extends DataPipeline<DogFacts> {
 
         this.logger.log(`Run ${runId} started at ${new Date().toISOString()}`);
 
-        const result = await super.run();
+        const result = await this.run();
         if (isError(result)) {
             this.logger.error(`Run ${runId} failed with error: ${result.message}`);
             return result;

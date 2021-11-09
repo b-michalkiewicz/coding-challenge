@@ -8,7 +8,7 @@ const eventEmitterMock = jest.fn();
 
 class TestClass extends DataPipeline<{ value: number }> {
     runPipeline() {
-        return super.run();
+        return this.run();
     }
 }
 
